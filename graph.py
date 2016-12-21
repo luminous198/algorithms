@@ -38,50 +38,6 @@ class Graph:
 			return hash((self._origin,self._destination)) 
 
 	def __init__(self,directed=False):
-		'''
-			outgoing makes a graph as the edges are added.
-			incoming simulateneously makes the reverse of the graph.
-			dfs_clock is used to compute begin and end time for running 
-			depth first search on the graph.
-			
-			Consider the following graph:
-					
-					
-					                        /\
-										   /  \
-					v1----------v2--------v5---- 
-					 \		   /           |
-					  \       /            |
-					   \     / 			   |
-					    \   /              |
-					      v3              v4 
-			
-			For the graph the structures are made as follows:
-			Undirected Graph:
-				_outgoing = _incoming :
-						v1 : { v2 : 10 }
-						v1 : { v3 : 7 }
-						v2 : { v1 : 10 }
-						v2 : { v5 : 1 }
-						v2 : { v3 : 11 }
-						v5 : { v2 : 1 }
-						v5 : { v5 : 9 }
-						v5 : { v4 : 12 }
-						v4 : { v5 : 12 }
-						v3 : { v1 : 7 }
-						v3 : { v2 : 11 }
-			
-			Directed Graph:
-				_outgoing :                    _incoming:
-					v1 : { v2 : 10 }           		v1 : { v3 : 7 }
-					v2 : { v5 : 1 }					v2 : { v1 : 10 }
-					v5 : { v5 : 9 }					v2 : { v3 : 11 }
-					v4 : { v5 : 12 }				v5 : { v2 : 1 }
-					v3 : { v1 : 7 }					v5 : { v5 : 9 }
-					v3 : { v2 : 11 }				v5 : { v4 : 12 }
-			
-			
-		'''
 		self._outgoing = {}
 		self._incoming = {} if directed else self._outgoing
 		self.dfs_clock = 1  #used to compute begin and end time for dfs
