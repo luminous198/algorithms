@@ -1,4 +1,6 @@
 from graph import Graph
+from graph_functions_new import stronglyConnectedComponents
+import operator
 
 def DFS_Complete(G):
 	'''
@@ -11,7 +13,7 @@ def DFS_Complete(G):
 	forest = {}
 	for u in G.vertices():
 		if u not in forest:
-			startTime[u._element] = G.dfs_clock
+			startTime[u] = G.dfs_clock
 			G.dfs_clock = G.dfs_clock+1
 			forest[u] = None
 			DFS(G,u,forest,startTime,finishTime)
@@ -24,15 +26,18 @@ def DFS(G,start,discovered,startTime,finishTime):
 		Perform DFS of the graph starting from the vertex start.
 		discovered is a hash table consisting of the edges used in DFS.
 		discovered can be used to construct the path from between nodes.
+		startTime and finishTime record the start and finish time of the
+		nodes being exmained respectively.
+		Both are dictionaries mapping Vertices to integer values.
 	'''
 	for e in G.incident_edges(start):
 		neigh = e.opposite(start)
 		if neigh not in discovered:
-			startTime[neigh._element] = G.dfs_clock
+			startTime[neigh] = G.dfs_clock
 			G.dfs_clock = G.dfs_clock+1
 			discovered[neigh] = e
 			DFS(G,neigh,discovered,startTime,finishTime)
-	finishTime[start._element] = G.dfs_clock
+	finishTime[start] = G.dfs_clock
 	G.dfs_clock = G.dfs_clock+1	
 
 
@@ -75,73 +80,11 @@ def BFS(G,start,discovered):
 def topologicalSort(G):
 	'''
 		Do a DFS of the graph.
-		Print the nodes in the reverse order of their finish times of
-		DFS.
+		Return the vertices in the reverse order of their finish times of
+		DFS in a list.
 	'''
 	(discovered,startTime,finishTime) = DFS_Complete(G)
-	print(sorted(finishTime.keys(),reverse=True))
 	
-def print_graph(G):
-	print("\n")
-	print("The original graph.")
-	for key,value in G._outgoing.items():
-		vertex = key
-		edges = value
-		for key1,value1 in edges.items():
-			print("{0} : {{ {1} : {2} }}"\
-				.format(vertex._element,key1._element,value1._element))
-	
-	print("\n")
-	if G.is_directed():
-		print("The reverse graph(Graph the directed).")
-		for key,value in g._incoming.items():
-			vertex = key
-			edges = value
-			for key1,value1 in edges.items():
-				print("{0} : {{ {1} : {2} }}"\
-					.format(vertex._element,key1._element,value1._element))
-		
-	
-if __name__ == "__main__":
-	
-	g = Graph(directed = True)
-	
-	v1 = g.insert_vertex('v1')
-	v2 = g.insert_vertex('v2')
-	v3 = g.insert_vertex('v3')
-	v4 = g.insert_vertex('v4')
-	v5 = g.insert_vertex('v5')
-	#z = g.insert_vertex('z')
-	print(g.vertex_count())
-	g.insert_edge(v1,v2,10)
-	g.insert_edge(v2,v5,1)
-	g.insert_edge(v5,v5,9)
-	g.insert_edge(v3,v1,7)
-	g.insert_edge(v3,v2,11)
-	g.insert_edge(v4,v5,12)
-	print(g.edge_count())
-	for edge in g.edges():
-		print(edge._origin._element,\
-				edge._destination._element,edge._element)
-	
-	
-	
-	discovered = {}
-	(discovered,startTime,finishTime) = DFS_Complete(g)
-	path = construct_path(v1,v2,discovered)
-	path_order = []
-	for v in path:
-		path_order.append(v._element)
-	print(path_order)
-	
-	print(startTime)
-	print(finishTime)
-	topologicalSort(g)	
-	
-	print_graph(g)
-	
-	
-	
-	
-	
-	
+	finishTimeList = sorted(finishTime.items(),key = operator.itemgetter(1),reverse=True)
+	finishTimeList = [x[0] for x in finishTimeList]
+	return finishTimeList
