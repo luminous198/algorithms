@@ -2,25 +2,7 @@ from graph import Graph
 import operator
 import graph_functions as graph_func
 
-def reverseGraph(G,directed = True):
-	'''
-		Given a graph G finds and returns its inverse.
-		Assumes a directed graph by default.
-	'''
-	
-	reverseG = Graph(directed = True)
-	#Add all vertices of G to reverseG
-	for key in G._outgoing:
-		reverseG._outgoing[key] = {}
-		reverseG._incoming[key] = {}
-	
-	for key,value in G._outgoing.items():
-		vertex = key
-		edges = value
-		
-		for v,w in edges.items():
-			reverG.insert_edge(v,vertex,w)
-		
+
 def stronglyConnectedComponents(G):
 	
 	(forest,startTime,finishTime) = graph_func.DFS_Complete(G)
@@ -31,6 +13,11 @@ def stronglyConnectedComponents(G):
 	time values.
 	finishTimeList is a list which stores vertices in order of their
 	decreasing finish times.
+	Strogly connected component needs to make use of the reverse graph.
+	There is no need to explicitly find the reverse as it is 
+	alredy stored in the _incoming dictionary.
+	Only the paramter to incident_edges() function needs to change to
+	use the _incoming dictionary instead of the default _outgoing.
 	'''
 	finishTimeList = sorted(finishTime.items(),key = operator.itemgetter(1),reverse=True)
 	finishTimeList = [x[0] for x in finishTimeList]
