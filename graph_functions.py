@@ -81,25 +81,44 @@ def topologicalSort(G):
 	(discovered,startTime,finishTime) = DFS_Complete(G)
 	print(sorted(finishTime.keys(),reverse=True))
 	
+def print_graph(G):
+	print("\n")
+	print("The original graph.")
+	for key,value in G._outgoing.items():
+		vertex = key
+		edges = value
+		for key1,value1 in edges.items():
+			print("{0} : {{ {1} : {2} }}"\
+				.format(vertex._element,key1._element,value1._element))
+	
+	print("\n")
+	if G.is_directed():
+		print("The reverse graph(Graph the directed).")
+		for key,value in g._incoming.items():
+			vertex = key
+			edges = value
+			for key1,value1 in edges.items():
+				print("{0} : {{ {1} : {2} }}"\
+					.format(vertex._element,key1._element,value1._element))
+		
 	
 if __name__ == "__main__":
 	
 	g = Graph(directed = True)
-	u = g.insert_vertex('u')
-	v = g.insert_vertex('v')
-	x = g.insert_vertex('x')
-	y = g.insert_vertex('y')
-	w = g.insert_vertex('w')
-	z = g.insert_vertex('z')
+	
+	v1 = g.insert_vertex('v1')
+	v2 = g.insert_vertex('v2')
+	v3 = g.insert_vertex('v3')
+	v4 = g.insert_vertex('v4')
+	v5 = g.insert_vertex('v5')
+	#z = g.insert_vertex('z')
 	print(g.vertex_count())
-	g.insert_edge(u,v,2)
-	g.insert_edge(u,x,1)
-	g.insert_edge(x,v,9)
-	g.insert_edge(v,y,10)
-	g.insert_edge(y,x,11)
-	g.insert_edge(w,y,12)
-	g.insert_edge(w,z,13)
-	g.insert_edge(z,z,14)
+	g.insert_edge(v1,v2,10)
+	g.insert_edge(v2,v5,1)
+	g.insert_edge(v5,v5,9)
+	g.insert_edge(v3,v1,7)
+	g.insert_edge(v3,v2,11)
+	g.insert_edge(v4,v5,12)
 	print(g.edge_count())
 	for edge in g.edges():
 		print(edge._origin._element,\
@@ -109,13 +128,20 @@ if __name__ == "__main__":
 	
 	discovered = {}
 	(discovered,startTime,finishTime) = DFS_Complete(g)
-	#path = construct_path(v1,v2,discovered)
-	#path_order = []
-	#for v in path:
-	#	path_order.append(v._element)
-	#print(path_order)
+	path = construct_path(v1,v2,discovered)
+	path_order = []
+	for v in path:
+		path_order.append(v._element)
+	print(path_order)
 	
 	print(startTime)
 	print(finishTime)
 	topologicalSort(g)	
+	
+	print_graph(g)
+	
+	
+	
+	
+	
 	
