@@ -24,6 +24,9 @@ class SingleLinkedStack:
 		self._size+=1
 	
 	def top(self):
+		'''
+			Shows the top element. Does not remove from the stack.
+		'''
 		if self.is_empty():
 			raise Empty('Stack is empty')
 		return self._head._element
@@ -41,11 +44,11 @@ class Empty(Exception):
 	
 if __name__=="__main__":
 	myStack=SingleLinkedStack()
-	print(myStack.__len__())
+	print("The length of the stack is : {0} ".format(myStack.__len__()))
 	myStack.push(10)
 	myStack.push(20)
-	print(myStack.top())
-	print(myStack.pop())
-	print(myStack.top())
-	print(myStack.pop())
+	print("The top element at the stack is : {0} ".format(myStack.top()))
+	print("Element popped from the stack is : {0} ".format(myStack.pop()))
+	print("The top element at the stack is : {0} ".format(myStack.top()))
+	print("Element popped from the stack is : {0} ".format(myStack.pop()))
 	print(myStack.top())	
