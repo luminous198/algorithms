@@ -38,4 +38,11 @@ if __name__ == "__main__":
 	for vertex in SCC_forest:
 		if SCC_forest[vertex] is None:
 			print(vertex._element)
-	
+	print('\n\n\n')
+		
+	#for vertex in graph_func.tempSort(g):
+	#	print(vertex._element)
+
+	topSortIter = graph_func.topologicalSortIterative(g)
+	topSortIter = [x._element for x in topSortIter]
+	print("The topological sort of the graph using iterative DFS is {0} ".format(topSortIter))
