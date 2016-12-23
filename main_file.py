@@ -4,11 +4,15 @@ import graph_functions_new as graph_func_new
 
 
 def testFunction(g):
-	#Tests the topological sort using DFS
+	
+	#Prints the topological sort of the graph.
+	#Prints error message of the graph has cycle(s).
 	topSort = graph_func.topologicalSort(g)
-	topSort = [x._element for x in topSort]
-	print("The topological sort of the graph is {0} ".format(topSort))
-	print("\n\n\n\n\n\n")
+	if len(topSort)!=g.vertex_count():
+		print("The graphs has cycles.Topological sort incomplete.")
+	else:
+		topSort = [x._element for x in topSort]
+		print(topSort)
 	
 	#Tests the strongly connected components for graph
 	(SCC_forest,startTime,finishTime) = graph_func_new.stronglyConnectedComponents(g)	
@@ -17,12 +21,6 @@ def testFunction(g):
 		if SCC_forest[vertex] is None:
 			print(vertex._element)
 	print('\n\n\n')
-		
-	
-	#Tests the topological sort using iterative DFS
-	topSortIter = graph_func.topologicalSortIterative(g)
-	topSortIter = [x._element for x in topSortIter]
-	print("The topological sort of the graph using iterative DFS is {0} ".format(topSortIter))
 
 def printGraph(G,directed=False):
 	print("Print the graph.")
@@ -74,7 +72,6 @@ if __name__ == "__main__":
 				(y,x,11),(w,y,12),(w,z,13),(z,z,14)]
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
-	
 	
 	
 	

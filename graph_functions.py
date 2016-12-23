@@ -81,23 +81,41 @@ def BFS(G,start,discovered):
 
 def topologicalSort(G):
 	'''
-		Do a DFS of the graph.
-		Return the vertices in the reverse order of their finish times of
-		DFS in a list.
+		Return a list of verticies of directed acyclic graph g in topological order.
+		If the graph has a cycle then the result will be incomplete. 
+		
+		topo is a list containg the final topological sort of the graph.
+		ready is temporary stack used to input vertices when computing the topological sort.
+		incount is a dictionary used to count the number of incoming edges for vertices.
+		
+		Topological Sort of the graph can also be used to test if the 
+		graph is acyclic.
+		If the graph has a cycle then the number of vertices returned
+		by topologicalSort is less then total vertices in the graph,implying
+		the sort if incomplete.
 	'''
-	(discovered,startTime,finishTime) = DFS_Complete(G)
 	
-	finishTimeList = sorted(finishTime.items(),key = operator.itemgetter(1),reverse=True)
-	finishTimeList = [x[0] for x in finishTimeList]
-	return finishTimeList
-
-def topologicalSortIterative(G):
-	(discovered,startTime,finishTime) = DFS_Complete_Iterative(G)
-	finishTimeList = sorted(finishTime.items(),key = operator.itemgetter(1),reverse=True)
-	finishTimeList = [x[0] for x in finishTimeList]
-	return finishTimeList
-
-
+	topo = []
+	ready = []
+	incount = {}
+	
+	for vertex in G.vertices():
+		incount[vertex] = G.degree(vertex,False) # Need incoming edges
+		if incount[vertex] == 0:
+			ready.append(vertex)
+	
+	while len(ready)>0:
+		u = ready.pop()
+		topo.append(u)
+		for e in G.incident_edges(u):
+			#There is an edge from u to v.
+			#u has been added to topo, decrement the incoming edges to v
+			v = e.opposite(u)
+			incount[v] =incount[v]-1
+			if incount[v] == 0:
+				ready.append(v)
+	return topo
+	
 def DFS_Complete_Iterative(G):
 	'''
 		Do a depth first search on all vertices of the graph.
