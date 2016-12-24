@@ -1,7 +1,7 @@
 from graph import Graph
 import graph_functions as graph_func
 import graph_functions_new as graph_func_new
-
+import shortest_path as sh_paths
 
 def testFunction(g):
 	
@@ -73,7 +73,9 @@ if __name__ == "__main__":
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
 	
-	
+	djikstraOutput = sh_paths.djikstraShortestPath(g,u)
+	for key,value in djikstraOutput.items():
+		print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
 	
 	
 	
