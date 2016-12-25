@@ -55,15 +55,26 @@ def showGraphInfo(G):
 	print("Number of Edges in the graph: {0}".format(G.edge_count()))
 	print("List of edges in the graph")
 	for edge in G.edges():
-		print("{0} ----> {1} with value {2}".format(edge._origin._element,\
-				edge._destination._element,edge._element))
+		print("{0} ----> {1} with value {2}"\
+						.format(edge._origin._element,\
+						edge._destination._element,\
+						edge._element))
 
-def shortestPath(G,source):
+def shortestPathDjisktra(G,source):
 	
 	#Run djikstra's algorithm from the given source
 	djikstraOutput = sh_paths.djikstraShortestPath(G,source)
 	for key,value in djikstraOutput.items():
-		print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
+		print("The distance of vertex {0}from source vertex {1} is {2}"\
+				.format(key._element,u._element,value))
+
+def shortestPathBellmanFord(G,source):	
+	bellmanfordOutput= sh_paths.bellman_ford_algorithm(g,u)
+	if bellmanfordOutput[0] is False:
+		print("There are negative weight cycles in the graph. Cannot compute shortest paths.")
+	else:
+		for key,value in bellmanfordOutput[1].items():
+			print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
 	
 if __name__ == "__main__":
 	
@@ -81,7 +92,7 @@ if __name__ == "__main__":
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
 	
-	
+	shortestPathBellmanFord(g,u)
 	
 	
 	
