@@ -72,3 +72,37 @@ def shortes_path_tree(G,source,d):
 				if d[v] == d[u] + weight:
 					tree[v] = e
 	return tree
+
+def bellman_ford_algorithm(G,source):
+	
+	'''
+		The function returns a tuple with first value being a boolean.
+		The first value  is either True or False depending on weather
+		if there is negative weight cycle or not in the graph.
+		If there is a negative weight cycle the first value is False
+		and the second values returned is None.
+		If there are no negative weight cycle the first value is True 
+		and second value is a dictionary containing the weights of the
+		shortest paths from the given source vertex.
+	'''
+	d = {}
+	
+	maxDistance = float("inf")
+	
+	for vertex in G.vertices():
+		if vertex is source:
+			d[vertex] = 0
+		else:
+			d[vertex] = maxDistance
+	
+	for i in range(G.vertex_count()-1):
+		for edge in G.edges():
+			fromVertex,toVertex = edge.endpoints()[0],edge.endpoints()[1]
+			if d[toVertex]>d[fromVertex]+edge.element():
+				d[toVertex] = d[fromVertex] + edge.element()
+	
+	for edge in G.edges():
+		fromVertex,toVertex = edge.endpoints()[0],edge.endpoints()[1]
+		if d[toVertex]>d[fromVertex]+edge.element():
+			return (False,None)
+	return (True,d)
