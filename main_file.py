@@ -46,7 +46,7 @@ def insertEdgesList(G,edgeList):
 		G.insert_edge(edge[0],edge[1],edge[2])
 
 def showGraphInfo(G):
-	print("Number of vertices in the graph : {0}".format(g.vertex_count()))
+	print("Number of vertices in the graph : {0}".format(G.vertex_count()))
 	vertex_list = []
 	for vertex in G.vertices():
 		vertex_list.append(vertex._element)
