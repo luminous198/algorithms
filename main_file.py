@@ -67,6 +67,7 @@ def shortestPathDjisktra(G,source):
 	for key,value in djikstraOutput.items():
 		print("The distance of vertex {0}from source vertex {1} is {2}"\
 				.format(key._element,u._element,value))
+	
 
 def shortestPathBellmanFord(G,source):	
 	bellmanfordOutput= sh_paths.bellman_ford_algorithm(g,u)
@@ -92,7 +93,7 @@ if __name__ == "__main__":
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
 	
-	shortestPathBellmanFord(g,u)
+	shortestPathDjisktra(g,u)
 	
 	
 	
