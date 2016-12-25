@@ -40,17 +40,12 @@ def djikstraShortestPath(G,source):
 	
 	while pQ.heapSize()>0:
 		
-		print("Now printing the heap.")
-		for elem in pQ.itemList():
-			print(elem[0],elem[1]._element)
-		print("\n\n\n\n")
 		'''
 		Returns a tuple from the queue.
 		The first element in the tuple is the distance d[v] and second
 		is the vertex itself.
 		'''
 		key,u = pQ.delMin()
-		print("The vertex popped from the heap is {0} with value {1}".format(u._element,key))
 		cloud[u] = key
 		for e in G.incident_edges(u):
 			v = e.opposite(u)
@@ -62,7 +57,7 @@ def djikstraShortestPath(G,source):
 					pQ.updateKey(v,d[v])
 	return cloud
 					
-def shortes_path_tree(G,source,d):
+def shortest_path_tree(G,source,d):
 	tree = {}
 	for v in d:	
 		if v is not source:
@@ -86,20 +81,24 @@ def bellman_ford_algorithm(G,source):
 		shortest paths from the given source vertex.
 	'''
 	d = {}
+	parent = {}
 	
 	maxDistance = float("inf")
 	
 	for vertex in G.vertices():
 		if vertex is source:
 			d[vertex] = 0
+			parent[vertex] = None
 		else:
 			d[vertex] = maxDistance
+			parent[vertex] = None
 	
 	for i in range(G.vertex_count()-1):
 		for edge in G.edges():
 			fromVertex,toVertex = edge.endpoints()[0],edge.endpoints()[1]
 			if d[toVertex]>d[fromVertex]+edge.element():
 				d[toVertex] = d[fromVertex] + edge.element()
+				parent[toVertex] = fromVertex
 	
 	for edge in G.edges():
 		fromVertex,toVertex = edge.endpoints()[0],edge.endpoints()[1]
