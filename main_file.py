@@ -57,6 +57,14 @@ def showGraphInfo(G):
 	for edge in G.edges():
 		print("{0} ----> {1} with value {2}".format(edge._origin._element,\
 				edge._destination._element,edge._element))
+
+def shortestPath(G,source):
+	
+	#Run djikstra's algorithm from the given source
+	djikstraOutput = sh_paths.djikstraShortestPath(G,source)
+	for key,value in djikstraOutput.items():
+		print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
+	
 if __name__ == "__main__":
 	
 	g = Graph(directed = True)
@@ -73,9 +81,7 @@ if __name__ == "__main__":
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
 	
-	djikstraOutput = sh_paths.djikstraShortestPath(g,u)
-	for key,value in djikstraOutput.items():
-		print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
+	
 	
 	
 	
