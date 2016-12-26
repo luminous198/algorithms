@@ -25,6 +25,12 @@ def makeMaze(boardSize):
 		For eg : valid moves for vertex 5 : 4,9,1,6
 				 valid moves for vertex 4 : 8,5,0
 		
+		The value of edge represents either a open path or a blockade.
+		If the value of edge is 1 then that path is open else if value
+		is 0 then the path is closed.
+		Initally the value of each edge is given as 0.
+		Specific maze generating algorithms can be used to create mazes
+		from the provided representation.
 		
 		Returns the graph g and vertList structure.
 		The vertList structure is a dictionary used to identify all the
