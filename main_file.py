@@ -2,6 +2,7 @@ from graph import Graph
 import graph_functions as graph_func
 import graph_functions_new as graph_func_new
 import shortest_path as sh_paths
+import spanning_trees as sp_tree
 
 def testFunction(g):
 	
@@ -76,10 +77,20 @@ def shortestPathBellmanFord(G,source):
 	else:
 		for key,value in bellmanfordOutput[1].items():
 			print("The distance of vertex {0} from source vertex {1} is {2} ".format(key._element,u._element,value))
-	
+
+def spanningTreePrimJarnik(G,source=None):
+	primTree = sp_tree.primJarnik(g,source)
+	print("Now printing the edges in the MST")
+	print("The number of edges in the tree is {0} ".format(len(primTree)))
+	for edge in primTree:
+		print("{0} ----> {1} with value {2}"\
+						.format(edge._origin._element,\
+						edge._destination._element,\
+						edge._element))
+
 if __name__ == "__main__":
 	
-	g = Graph(directed = True)
+	g = Graph(directed = False)
 	u = g.insert_vertex('u')
 	v = g.insert_vertex('v')
 	x = g.insert_vertex('x')
@@ -92,8 +103,5 @@ if __name__ == "__main__":
 				(y,x,11),(w,y,12),(w,z,13),(z,z,14)]
 	insertEdgesList(g,edgeList)
 	showGraphInfo(g)
-	
-	shortestPathDjisktra(g,u)
-	
 	
 	
