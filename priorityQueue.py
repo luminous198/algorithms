@@ -45,6 +45,25 @@ class PQueue:
 		self.percDown(1)
 		return retval
 	
+	def updateValue(self,item,newValue):
+		'''
+			Update the value for a given item.
+			The key remains the same but the value changes. 
+		'''
+		done = False
+		i=1
+		key=0
+		while not done and i<=self.currentSize:
+			if self.heapList[i][1] == item:
+				#Found the item to be updated make key point
+				#to this item.
+				done = True
+				key = i
+			else:
+				i=i+1
+		if key>0:
+			self.heapList[key] = (self.heapList[key][0],newValue)
+			
 	def updateKey(self,item,value):
 		'''
 			Update the given item with the given value.
@@ -93,6 +112,7 @@ if __name__=='__main__':
 	insertIntoQueue(pQ,itemList)
 	print("The queue is")
 	print(pQ)
+	pQ.updateValue('k','g')
 	print(pQ.itemList())
 	print("The item deleted from the queue is : {0}".format(pQ.delMin()))
 	#print(pQ)
