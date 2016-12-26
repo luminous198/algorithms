@@ -54,7 +54,6 @@ def primJarnik(G,source = None):
 		minElement = min(queueList,key = lambda x : x[0])
 		key,value = minElement
 		u,edge = value
-		print("The min element is {0}".format(key))
 		queueList.remove(minElement)
 		vertexInList.remove(u)
 		if edge is not None:
