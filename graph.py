@@ -34,6 +34,9 @@ class Graph:
 		def element(self):
 			return self._element
 		
+		def changeElement(self,newElement):
+			self._element = newElement
+		
 		def __hash__(self):
 			return hash((self._origin,self._destination)) 
 
