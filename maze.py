@@ -1,5 +1,9 @@
 from graph import Graph
 import main_file as mf
+import graph_functions as graph_func
+import main_file as mf
+import operator
+from single_linked_stack import SingleLinkedStack
 
 def makeMaze(boardSize):
 	
@@ -95,6 +99,118 @@ def convertIntoOneDim(x,y,boardSize):
 	
 	return boardSize*x+y
 
+def showGraphInfo(G):
+	print("Number of vertices in the graph : {0}".format(G.vertex_count()))
+	vertex_list = []
+	for vertex in G.vertices():
+		vertex_list.append(vertex._element)
+	#print("List of Vertces in the graph : {0}".format(vertex_list))
+	
+	print("Number of Edges in the graph: {0}".format(G.edge_count()))
+	#print("List of edges in the graph")
+	count = 0 
+	for edge in G.edges():
+		if edge.element()==1:
+	#		print("{0} ----> {1} with value {2}"\
+	#						.format(edge._origin._element,\
+	#						edge._destination._element,\
+	#						edge._element))
+			count = count+1
+		
+	print("Number of knocked down walls is {0} ".format(count))
+
+def Maze_Generator_DFS(G):
+	'''
+		Do a depth first search on all vertices of the graph.
+		Returns a depth first forest of the graph.
+		The root of each tree points to None.
+	'''
+	startTime = {}
+	finishTime = {}
+	forest = {}
+	color = {}
+	for vertex in G.vertices():
+		color[vertex] = "white"
+	
+	for u in G.vertices():
+		if u not in forest:
+			startTime[u] = G.dfs_clock
+			G.dfs_clock = G.dfs_clock+1
+			forest[u] = None
+			Maze_Generator_DFS_Hepler(G,u,forest,startTime,finishTime,color)
+	G.dfs_clock = 1
+	return (forest,startTime,finishTime)
+
+
+
+def Maze_Generator_DFS_Hepler(G,start,discovered,startTime,finishTime,color):
+	'''
+		Runs an iterative depth-first Search on the graph.
+		Discovered is a dictionary used to keep track of the vertices 
+		which have been visited in the graph. 
+		Color signifies different phases through which a vertex goes 
+		when being examined.
+		A vertex can have one of three colors at any given point:
+		white,grey or black.Initially all vetices have color white.
+		white->node has not been exmained yet
+		grey->node is being examined
+		black->node is finished being examined
+		startTime and finishTime are dictionaries which store the start
+		and finish times of the vertices respectively.
+		dfs_clock is used to compute start and finish times.
+		
+		discovered -> dictionary mapping mapping vertices to edges 
+		through which they were discovered.Helpful in figuring out the
+		path through a vertex later.
+		Color -> dictionary mapping vertices to colors.
+		startTime ->dictionary mapping vertices to startTime.
+		finishTime ->dictionary mapping vertices to finishTime.
+		
+	'''
+	S = SingleLinkedStack()
+	S.push(start)
+	
+	while(S.__len__()!=0):
+		u = S.top()
+		if color[u] is 'white':
+			color[u] = 'grey'
+			for e in G.incident_edges(u):
+				neigh = e.opposite(u)
+				if neigh not in discovered:
+					#for maze
+					e.changeElement(1)
+					startTime[neigh] = G.dfs_clock
+					G.dfs_clock = G.dfs_clock + 1
+					discovered[neigh] = e
+					S.push(neigh)
+		elif color[u] is 'grey':
+			u = S.pop()
+			#print("popped from stack {0} ".format(S.pop()._element))
+			color[u] = 'black'
+			finishTime[u] = G.dfs_clock
+			G.dfs_clock = G.dfs_clock + 1
+	return (discovered,startTime,finishTime)
+
+
+	
 if __name__ == "__main__":
-	(g,vertList) = makeMaze(4)
-	mf.showGraphInfo(g)
+	(g,vertList) = makeMaze(100)
+	
+	(forest,startTime,finishTime) = Maze_Generator_DFS(g)
+	showGraphInfo(g)
+	#for key,value in startTime.items():
+	#	print(""key._element,value)
+	source = min(list(startTime.items()),key = lambda x :x[1])
+	#print(source[0]._element,source[1])
+	print("The starting vertex of the maze is {0}.".format(source[0]._element))
+	
+	primTree = primJarnik(g,source[0])
+	print("Now printing the edges in the MST")
+	print("The number of edges in the tree is {0} ".format(len(primTree)))
+	'''
+	for edge in primTree:
+		print("{0} ----> {1} with value {2}"\
+						.format(edge._origin._element,\
+						edge._destination._element,\
+						edge._element))
+	'''
