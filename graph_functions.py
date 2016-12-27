@@ -35,6 +35,8 @@ def DFS(G,start,discovered,startTime,finishTime):
 	for e in G.incident_edges(start):
 		neigh = e.opposite(start)
 		if neigh not in discovered:
+			#Used for maze , knock down the wall
+			#e.changeElement(1)
 			startTime[neigh] = G.dfs_clock
 			G.dfs_clock = G.dfs_clock+1
 			discovered[neigh] = e
@@ -174,6 +176,8 @@ def DFS_Iterative(G,start,discovered,startTime,finishTime,color):
 			for e in G.incident_edges(u):
 				neigh = e.opposite(u)
 				if neigh not in discovered:
+					#for maze
+					e.changeElement(1)
 					startTime[neigh] = G.dfs_clock
 					G.dfs_clock = G.dfs_clock + 1
 					discovered[neigh] = e
