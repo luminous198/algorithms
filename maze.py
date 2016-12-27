@@ -204,9 +204,9 @@ if __name__ == "__main__":
 	#print(source[0]._element,source[1])
 	print("The starting vertex of the maze is {0}.".format(source[0]._element))
 	
-	primTree = primJarnik(g,source[0])
-	print("Now printing the edges in the MST")
-	print("The number of edges in the tree is {0} ".format(len(primTree)))
+	#primTree = primJarnik(g,source[0])
+	#print("Now printing the edges in the MST")
+	#print("The number of edges in the tree is {0} ".format(len(primTree)))
 	'''
 	for edge in primTree:
 		print("{0} ----> {1} with value {2}"\
